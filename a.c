@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+unsigned long long int fib[1000] = {0, 1}
 unsigned long long int fibo(int n);
 int find_nth_term(int n, int len);
 
@@ -12,24 +13,30 @@ int main()
         char line[306];  //stores line from stdin
         char first[102], second[102], n[102], *end;  //3 numbers from line, *end for strtoll
         int num_line, result_line = 1;
-        unsigned long long len_first = 0, len_second = 0, len_next = 0, len_line, pos;
-        unsigned long long int int_n;
+        unsigned long long int len_first = 0, len_second = 0, len_next = 0, len_line, pos;
+        unsigned long long int int_n, chars_read;
 
-        scanf("%d", &num_line);
-        for(; num_line > 0; num_line--)
+        scanf("%d", &num_line);                        //for testing program with multiple test strings
+        for(; num_line > 0; num_line--)     //reads and processes one line in each iteration
         {
-            scanf("%s %s %s", first, second, n);
-            int_n = strtoll(n, &end, 10);
+            scanf("%s %s %s", first, second, n); //read numbers as string to avoid exceeding range of integer
+            int_n = strtoll(n, &end, 10);      //converting n to integer
             len_first = strlen(first);
             len_second = strlen(second);
             result_line = 0;
-            while((fibo(result_line) * len_first) <= int_n)
+            while((fibo(result_line) * len_first) <= int_n)   //calculates line number whose length is greater or equal to given n
             {
                 result_line++;
             }
-            pos = (int_n/len_first);    //position of string in line <result_line>
-            if(int_n % len_first != 0)
-                pos++;
+            for (int i = 1; chars_read < int_n; i++)//position of string in line <result_line>
+            {
+                int temp = nth_term(line, pos);
+                if (temp == 1)
+                       chars_read += strlen(first);
+                else
+                        chars_read += strlen(second);
+            }
+            
             unsigned long long int pos_w = int_n - (len_first * (pos-1)); //position of nth character in string
             if (num_line != 1)
             {
